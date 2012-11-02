@@ -3,6 +3,10 @@
 
 #include "Node.h"
 #include <string>
+#include <vector>
+#include <math.h>
+using std::vector;
+
 
 template <typename T>
 class BST {
@@ -18,6 +22,8 @@ class BST {
   void remove(T v);
   void insert(T v);
   void print();
+  void printTree();
+
 };
 
 
