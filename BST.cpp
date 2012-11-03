@@ -18,9 +18,18 @@ BST<T>::~BST() {
 
 template <typename T>
 bool BST<T>::find(T v) {
-  Node<T>* temp = new Node<T>(v);
-  root = temp;  
-  return true;
+  Node<T>** curr = &root;
+  while (*curr != 0 && (*curr)->getValue() != v) {
+    if (v < (*curr)->getValue()) {
+      curr = &((*curr)->getLeftChild());
+    } else if (v > (*curr)->getValue()) {
+      curr = &((*curr)->getRightChild());
+    }
+  }
+  if (*curr !=0)
+	  return true;
+  else
+	  return false;
 }
 
 template <typename T>
@@ -40,8 +49,30 @@ void BST<T>::insert(T v) {
 
 template <typename T>
 void BST<T>::remove(T v) {
-  Node<T>* temp = new Node<T>(v);
-  root = temp;
+  Node<T>** curr = &root;
+  while (*curr != 0 && (*curr)->getValue() != v) {
+    if (v < (*curr)->getValue()) {
+      curr = &((*curr)->getLeftChild());
+    } else if (v > (*curr)->getValue()) {
+      curr = &((*curr)->getRightChild());
+    }
+  }
+  if (*curr == 0)
+	  std::cout << "Cannot remove, not found." << std::endl;
+  else{
+	  if ((*curr)->getLeftChild() == 0)
+		  *curr = (*curr)->getRightChild();
+	  else if ((*curr)->getRightChild() == 0)
+		  *curr = (*curr)->getLeftChild();
+	  else{
+		  Node<T>** recall = curr;
+		  curr = &((*curr)->getLeftChild());
+		  while (*curr != 0)
+			  curr = &((*curr)->getRightChild());
+		  *curr = (*recall)->getRightChild();
+		  *recall = (*recall)->getLeftChild();
+	  }
+  }
 }
 
 template <typename T>
